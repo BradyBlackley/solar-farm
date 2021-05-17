@@ -1,0 +1,89 @@
+# GAS PEDAL
+## Solar Farm
+
+# Layer Structure
+
+## Models
+
+- Panel Class
+    - Unique ID
+    - Section
+    - Row (1 <= 250)
+    - Column (1 <= 250)
+    - Year Installed (<=2021)
+    - MaterialType
+    - Is Tracking (boolean)
+- MaterialType (Enum)
+    -MULTI_SILICON
+    -MONO_SILICON
+    -AMORPH_SILICON
+    -CAD_TELLURIDE
+    -COP_INDIUM
+    -GALL_SELENIDE
+
+## Data
+
+- PanelRepository (Interface)
+    - List<Panel> findAll()
+    - Panel findById(int id)
+    - List<Panel> findBySection(String section)
+    - List<Panel> findByMaterial(MaterialType type) *
+    - Panel add(Panel panel)
+    - boolean update(Panel panel)
+    - boolean deleteById(int panelId)
+- PanelFileRepository (Concrete Implementation)
+    - private void writeToFile(List<Panel> panels)
+- DataAccessException (handle this, exit gracefully, let UI know)
+    - super(message, cause)
+
+##Domain
+
+- PanelService
+    - List<Panel> findAll()
+    - Panel findById(int id)
+    - List<Panel> findBySection(String section)
+    - List<Panel> findByMaterial(MaterialType type) *
+    - PanelResult add(Panel panel)
+    - boolean update(Panel panel)
+    - boolean deleteById(int panelId)
+    - PanelResult validate(Panel panel)
+- PanelResult
+    - ArrayList<String> messages = new ArrayList<>();
+    _________________________________________________
+    - addErrorMessage(String message)
+    - boolean isSuccess()
+    - List<String> getErrorMessages
+
+## UI
+ - MenuOption (Enum)
+     - EXIT
+     - DISPLAY
+     - CREATE
+     - UPDATE
+     - DELETE
+ - View
+   - readInt/readString etc.
+   - printMenu
+ - Controller
+
+#TESTING
+
+### Data files:
+- seedfile
+- testfile
+
+## Data
+
+- PanelFileRepository
+- PanelRepositoryDouble
+
+##Domain
+- PanelServiceTest
+
+## Tests
+
+- beforeach - set up seed -> test copy
+- test all find methods (all, by id, by material, etc.)
+- test adding valid and invalid panels
+- test updating valid and invalid panels
+- test deleting by ID
